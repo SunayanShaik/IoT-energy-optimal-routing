@@ -1,0 +1,34 @@
+# -*- Mode: python; py-indent-offset: 4; indent-tabs-mode: nil; coding: utf-8; -*-
+
+# def options(opt):
+#     pass
+
+# def configure(conf):
+#     conf.check_nonfatal(header_name='stdint.h', define_name='HAVE_STDINT_H')
+
+def build(bld):
+    module = bld.create_ns3_module('iot-energy-optimal-routing', ['core','network'])
+    module.source = [
+        'model/iot-energy-optimal-routing.cc',
+        'model/iot-energy-optimal-route-processor.cc',
+        'helper/iot-energy-optimal-routing-helper.cc'
+        ]
+
+    module_test = bld.create_ns3_module_test_library('iot-energy-optimal-routing')
+    module_test.source = [
+        'test/iot-energy-optimal-routing-test-suite.cc',
+        ]
+
+    headers = bld(features='ns3header')
+    headers.module = 'iot-energy-optimal-routing'
+    headers.source = [
+        'model/iot-energy-optimal-routing.h',
+        'model/iot-energy-optimal-route-processor.h',
+        'helper/iot-energy-optimal-routing-helper.h'
+        ]
+
+    if bld.env.ENABLE_EXAMPLES:
+        bld.recurse('examples')
+
+    # bld.ns3_python_bindings()
+
